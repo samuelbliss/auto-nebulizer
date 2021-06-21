@@ -1,17 +1,15 @@
 export const CarItem = (props) => {
-    const price = 3999
     return (
         <div className="Car-list-item-container">
-            <img className="Car-list-item-image" alt='mypic' src="https://www.oldcarsweekly.com/.image/t_share/MTcyNDgzNjc1Nzc5OTY2ODkw/image-placeholder-title.jpg"/>
-            <div>
-                <div>{"$" + price.toLocaleString()}</div>
-                <div>Yugo</div>
-                <div>GV Sport</div>
-                <div>83</div>
+            <img className="Car-list-item-image" alt='mypic'
+                 src="https://www.oldcarsweekly.com/.image/t_share/MTcyNDgzNjc1Nzc5OTY2ODkw/image-placeholder-title.jpg"/>
+            <div className="Car-list-item-summary">
+                <div>{"$" + props.data.price.toLocaleString()}</div>
+                <div>{props.data.make}</div>
+                <div>{props.data.model}</div>
+                <div>{props.data.year}</div>
             </div>
-            <div>
-                <button title="Buy Now!" />
-            </div>
+            <button  className="buy-now-button">Buy Now!</button>
         </div>
     )
 }

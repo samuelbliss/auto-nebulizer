@@ -3,49 +3,52 @@ import App from './App';
 import {CarItem} from "./CarItem";
 
 describe('list item',() => {
-
-      beforeAll(() => {
-
-          }
-      )
-      test('we have model text', () => {
-        render(<CarItem/>);
-        const listItem = screen.getByText('Yugo');
+        const rand = Math.floor(Math.random()*100)
+      const car = {
+          make: "make"+ rand,
+          model: "model" + rand,
+          price: 1000 + rand,
+          year: "year" + rand,
+          image: "https://www.oldcarsweekly.com/.image/t_share/MTcyNDgzNjc1Nzc5OTY2ODkw/image-placeholder-title.jpg"
+      }
+      test('we have make text', () => {
+        render(<CarItem data = {car}/>);
+        const listItem = screen.getByText(car.make);
         expect(listItem).toBeInTheDocument();
       });
 
-      test('we have make text', () => {
-        render(<CarItem/>);
-        const listItem = screen.getByText('GV Sport');
+      test('we have model text', () => {
+        render(<CarItem data = {car}/>);
+        const listItem = screen.getByText(car.model);
         expect(listItem).toBeInTheDocument();
       });
 
         test('we have year text', () => {
-            render(<CarItem/>);
-            const listItem = screen.getByText('83');
+            render(<CarItem data = {car}/>);
+            const listItem = screen.getByText(car.year);
             expect(listItem).toBeInTheDocument();
         });
 
         test('we have price text', () => {
-            render(<CarItem/>);
-            const price = 3999
+            render(<CarItem data = {car}/>);
+            const price = car.price
             const formattedPrice = "$" + price.toLocaleString()
             const listItem = screen.getByText(formattedPrice);
             expect(listItem).toBeInTheDocument();
         });
 
         test('we have image', () => {
-            render(<CarItem/>);
+            render(<CarItem data = {car}/>);
             const listItem = screen.getByRole('img');
             expect(listItem).toBeInTheDocument();
             expect(listItem.getAttribute('src')).toEqual('https://www.oldcarsweekly.com/.image/t_share/MTcyNDgzNjc1Nzc5OTY2ODkw/image-placeholder-title.jpg')
         });
 
         test('we buy button', () => {
-            render(<CarItem/>);
+            render(<CarItem data = {car}/>);
             const listItem = screen.getByRole('button');
             expect(listItem).toBeInTheDocument();
-            expect(listItem.getAttribute('title')).toEqual('Buy Now!')
+            expect(listItem).toHaveTextContent('Buy Now!');
         });
     }
 
