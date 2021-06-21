@@ -36,3 +36,13 @@
     transform: rotate(360deg);
   }
 }
+
+.Car-list-item-container {
+  height: 120px;
+  align-items: center;
+  display: flex;
+}
+
+.Car-list-item-image {
+  height: 80%;
+}
