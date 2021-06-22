@@ -69,4 +69,23 @@ describe('Filtererinator',() => {
         )
         expect(funcWasCalled).toBeTruthy()
     })
+
+    test('reset search button restores all vehicles to list', ()=> {
+        let funcWasCalled = false
+        const myFunc = (make, model, year) => {
+            funcWasCalled = true
+        }
+        render(<Filterer filterFunc={myFunc}/>);
+        const resetButton = screen.getByRole("button", {
+            name: "reset",
+        })
+        expect(resetButton).toBeInTheDocument();
+        act(() => {
+                userEvent.click(resetButton)
+            }
+        )
+        expect(funcWasCalled).toBeTruthy()
+        expect(funcWasCalled).toBeTruthy()
+    }
+)
 })

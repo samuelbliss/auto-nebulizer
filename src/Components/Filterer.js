@@ -10,6 +10,7 @@ export const Filterer = (props) => {
 
     const filterFunc = props.filterFunc
 
+
     return (
         <div className="Car-list-filter" data-testid="car-filter">
             <form onSubmit={(e) => {
@@ -27,7 +28,9 @@ export const Filterer = (props) => {
                 { !make && !model && !year ?
                     <input type="submit" value="Search" className="search-button" disabled={true} />:
                     <input type="submit" value="Search" className="search-button" />}
+                <button aria-label ="reset"/>
             </form>
+
         </div>
     )
 }
