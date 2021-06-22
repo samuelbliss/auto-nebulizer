@@ -17,6 +17,7 @@ function App() {
     }, [])
     return (
         <div className="App">
+            {/*<Filterer />*/}
             <CarList data={carData}/>
         </div>
     );
