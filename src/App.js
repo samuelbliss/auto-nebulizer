@@ -1,33 +1,37 @@
 import './App.css';
-import {CarItem} from "./CarItem";
+import {CarItem} from "./Components/CarItem";
 import {CarList} from "./Components/CarList";
+import {useEffect, useState} from "react";
 
 function App() {
-    const cardata = {
-        make: "yugo",
-        model: "sport",
-        price: 3999,
-        year: "83",
-        image: "https://www.oldcarsweekly.com/.image/t_share/MTcyNDgzNjc1Nzc5OTY2ODkw/image-placeholder-title.jpg"
-    }
-
+    const [carData, setCarData] = useState([]);
+    useEffect(() => {
+        const callApi = async () => {
+            const resp = await fetch("http://localhost:5000/api/vehicles", {
+                method: 'GET'
+            })
+            const data = await resp.json()
+            setCarData(data)
+        }
+        callApi()
+    }, [])
     return (
         <div className="App">
-            {/*<header className="App-header">*/}
-            {/*</header>*/}
-            <CarList data={[cardata]}/>
+            <CarList data={carData}/>
         </div>
     );
 }
 
 // What does a car look like?
 /*
-    make
-    model
-    year
-    description
-    thumbnail
-    mileage
+    "id": "b807397e-a752-4fe0-a593-282f9c967d24",
+    "make": "Ford",
+    "model": "Taurus",
+    "year": 2018,
+    "image": "https://via.placeholder.com/200",
+    "color": "Silver",
+    "price": "176.74",
+    "available": true
 
  */
 

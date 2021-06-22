@@ -1,8 +1,9 @@
 export const CarItem = (props) => {
+    console.log(props.data)
     return (
-        <div className="Car-list-item-container">
+        <div className="Car-list-item-container" data-testid="car-item">
             <img className="Car-list-item-image" alt='mypic'
-                 src="https://www.oldcarsweekly.com/.image/t_share/MTcyNDgzNjc1Nzc5OTY2ODkw/image-placeholder-title.jpg"/>
+                 src={props.data.image}/>
             <div className="Car-list-item-summary">
                 <div>{"$" + props.data.price.toLocaleString()}</div>
                 <div>{props.data.make}</div>
@@ -16,10 +17,13 @@ export const CarItem = (props) => {
 
 // What does a car look like?
 /*
-    make
-    model
-    year
-    price
-    thumbnail
+    "id": "b807397e-a752-4fe0-a593-282f9c967d24",
+    "make": "Ford",
+    "model": "Taurus",
+    "year": 2018,
+    "image": "https://via.placeholder.com/200",
+    "color": "Silver",
+    "price": "176.74",
+    "available": true
 
  */

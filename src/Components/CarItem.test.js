@@ -1,5 +1,5 @@
 import { render, screen } from '@testing-library/react';
-import App from './App';
+import App from '../App';
 import {CarItem} from "./CarItem";
 
 describe('list item',() => {
@@ -9,7 +9,7 @@ describe('list item',() => {
           model: "model" + rand,
           price: 1000 + rand,
           year: "year" + rand,
-          image: "https://www.oldcarsweekly.com/.image/t_share/MTcyNDgzNjc1Nzc5OTY2ODkw/image-placeholder-title.jpg"
+          image: "https://www.fakephoto.something/" + rand
       }
       test('we have make text', () => {
         render(<CarItem data = {car}/>);
@@ -41,7 +41,7 @@ describe('list item',() => {
             render(<CarItem data = {car}/>);
             const listItem = screen.getByRole('img');
             expect(listItem).toBeInTheDocument();
-            expect(listItem.getAttribute('src')).toEqual('https://www.oldcarsweekly.com/.image/t_share/MTcyNDgzNjc1Nzc5OTY2ODkw/image-placeholder-title.jpg')
+            expect(listItem.getAttribute('src')).toEqual(car.image)
         });
 
         test('we buy button', () => {
