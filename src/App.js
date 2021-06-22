@@ -1,5 +1,5 @@
 import './App.css';
-import {CarItem} from "./Components/CarItem";
+import {Filterer} from "./Components/Filterer";
 import {CarList} from "./Components/CarList";
 import {useEffect, useState} from "react";
 
@@ -17,7 +17,7 @@ function App() {
     }, [])
     return (
         <div className="App">
-            {/*<Filterer />*/}
+            <Filterer />
             <CarList data={carData}/>
         </div>
     );

@@ -8,9 +8,13 @@ export const Filterer = (props) => {
     const [model, setModel] = useState("")
     const [year, setYear] = useState("")
 
+    const filterFunc = props.filterFunc
+
     return (
         <div className="Car-list-filter" data-testid="car-filter">
-            <form>
+            <form onSubmit={(e) => {
+                e.preventDefault(); filterFunc(make, model, year)
+            } }>
                 <input type="text" aria-label="Make" value={make} onChange={
                     (e) => {setMake(e.target.value)}
                 }/>
@@ -21,8 +25,8 @@ export const Filterer = (props) => {
                     (e) => {setYear(e.target.value)}
                 }/>
                 { !make && !model && !year ?
-                    <button className="search-button" disabled={true}>Search</button>:
-                    <button className="search-button">Search</button>}
+                    <input type="submit" value="Search" className="search-button" disabled={true} />:
+                    <input type="submit" value="Search" className="search-button" />}
             </form>
         </div>
     )

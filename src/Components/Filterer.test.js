@@ -27,7 +27,7 @@ describe('Filtererinator',() => {
         render(<Filterer />);
         const listItem = screen.getByRole('button');
         expect(listItem).toBeInTheDocument();
-        expect(listItem).toHaveTextContent('Search');
+        expect(listItem.getAttribute('Value')).toEqual('Search');
     })
 
     test('button disabled when make, model, and year empty', () => {
@@ -47,5 +47,26 @@ describe('Filtererinator',() => {
 
         const listItem = screen.getByRole('button');
         expect(listItem).not.toHaveAttribute('disabled')
+    })
+
+    test('submit onclick filter function called with search param - model', () => {
+        let funcWasCalled = false
+        const myFunc = (make, model, year) => {
+            funcWasCalled = true
+        }
+        render(<Filterer filterFunc={myFunc}/>);
+
+        const model = screen.getByLabelText("Model")
+        act(() => {
+                userEvent.type(model, 'Pinto')
+            }
+        )
+
+        const button = screen.getByRole('button');
+        act(() => {
+                userEvent.click(button)
+            }
+        )
+        expect(funcWasCalled).toBeTruthy()
     })
 })
