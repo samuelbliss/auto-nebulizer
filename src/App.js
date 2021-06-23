@@ -21,6 +21,7 @@ function App() {
                 return matchMake && matchModel && matchYear
             })
             setFilteredData(filterData)
+            setDisplayedComponents({ type: 'list' })
         }
     }, [carData])
 
