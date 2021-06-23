@@ -4,10 +4,12 @@ import {CarList} from "./Components/CarList";
 import {useCallback, useEffect, useState, useReducer, useContext, createContext} from "react";
 import {CarDetails} from "./Components/CarDetails";
 import {RoutingContext} from "./Components/Context";
+import {CartProvider} from "./Components/CartContext";
 
 function App() {
     const [carData, setCarData] = useState([]);
     const [filteredData, setFilteredData] = useState([]);
+    const [cart, setCart] = useState([]);
     const filterFunc = useCallback((make, model, year) => {
         if (!make && !model && !year) {
             setFilteredData(carData)
@@ -97,9 +99,11 @@ function App() {
 
     return (
         <RoutingContext.Provider value={routingContext}>
-            <div>
-                {displayedComponents}
-            </div>
+            <CartProvider >
+                <div>
+                    {displayedComponents}
+                </div>
+            </CartProvider>
         </RoutingContext.Provider>
 
     )

@@ -1,9 +1,13 @@
 import React, {useContext} from "react";
 import {RoutingContext} from "./Context";
+import {CartContext} from "./CartContext";
 
 export const CarDetails = React.memo((props) => {
-    const openDetails = () => props.openDetails(props.data)
+
     const routingFuncs = useContext(RoutingContext)
+    const cartContext = useContext(CartContext)
+    const addToCart = () => cartContext.add(props.car)
+    const removeFromCart = () => cartContext.remove(props.car)
 
     return (
         <div className="Car-details-container" data-testid="car-details">
@@ -16,7 +20,8 @@ export const CarDetails = React.memo((props) => {
                 <div>{props.car.model}</div>
                 <div>{props.car.year}</div>
             </div>
-            <button className="add-to-cart-button">Add to Cart</button>
+            <button className="add-to-cart-button" onClick={addToCart}>Add to Cart</button>
+            <button className="remove-from-cart-button" onClick={removeFromCart}>Changed my mind</button>
         </div>
     )
 })
