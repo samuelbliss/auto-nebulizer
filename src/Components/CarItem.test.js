@@ -1,6 +1,7 @@
-import { render, screen } from '@testing-library/react';
+import {act, render, screen} from '@testing-library/react';
 import App from '../App';
 import {CarItem} from "./CarItem";
+import userEvent from "@testing-library/user-event";
 
 describe('list item',() => {
         const rand = Math.floor(Math.random()*100)
@@ -44,12 +45,32 @@ describe('list item',() => {
             expect(listItem.getAttribute('src')).toEqual(car.image)
         });
 
-        test('we buy button', () => {
+        test('we have a View Details button', () => {
             render(<CarItem data = {car}/>);
             const listItem = screen.getByRole('button');
             expect(listItem).toBeInTheDocument();
-            expect(listItem).toHaveTextContent('Buy Now!');
+            expect(listItem).toHaveTextContent('View Details');
         });
+
+        test('clicking car details button displays car detail view', ()=> {
+                let funcWasCalled = false
+            const openDetails = (car) => {
+                funcWasCalled = true
+            }
+            render(<CarItem data = {car} openDetails={openDetails}/>);
+            const detailsButton = screen.getByRole('button');
+
+            act(() => {
+                    userEvent.click(detailsButton)
+                }
+            )
+            expect(funcWasCalled).toBeTruthy()
+            // expect(listItem).toBeInTheDocument();
+
+            // expect(listItem).toHaveTextContent('View Details');
+
+
+        })
     }
 
 )

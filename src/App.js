@@ -6,19 +6,6 @@ import {useCallback, useEffect, useState} from "react";
 function App() {
     const [carData, setCarData] = useState([]);
     const [filteredData, setFilteredData] = useState([]);
-
-    useEffect(() => {
-        const callApi = async () => {
-            const resp = await fetch("http://localhost:5000/api/vehicles", {
-                method: 'GET'
-            })
-            const data = await resp.json()
-            setFilteredData(data)
-            setCarData(data)
-        }
-        callApi()
-    }, [])
-
     const filterFunc = useCallback((make, model, year) => {
         if (!make && !model && !year) {
             setFilteredData(carData)
@@ -32,12 +19,33 @@ function App() {
             setFilteredData(filterData)
         }
     }, [carData])
-    return (
+
+    const [DisplayedComponents, setDisplayedComponents] = useState(
         <div className="App">
             <Filterer filterFunc={filterFunc}/>
             <CarList data={filteredData}/>
         </div>
-    );
+    )
+
+    useEffect(() => {
+        const callApi = async () => {
+            const resp = await fetch("http://localhost:5000/api/vehicles", {
+                method: 'GET'
+            })
+            const data = await resp.json()
+            setFilteredData(data)
+            setCarData(data)
+        }
+        callApi()
+    }, [])
+
+
+
+    // const openDetails = useCallback((car)=>{
+    //
+    // })
+
+    return <DisplayedComponents/>;
 }
 
 // What does a car look like?

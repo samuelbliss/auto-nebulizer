@@ -11,7 +11,7 @@ export const CarItem = React.memo((props) => {
                 <div>{props.data.model}</div>
                 <div>{props.data.year}</div>
             </div>
-            <button  className="buy-now-button">Buy Now!</button>
+            <button  className="view-details-button" onClick={props.openDetails(props.data)}>View Details</button>
         </div>
     )
 })
