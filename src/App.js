@@ -24,13 +24,6 @@ function App() {
         }
     }, [carData])
 
-    // const [DisplayedComponents, setDisplayedComponents] = useState(
-    //     <div className="App">
-    //         <Filterer filterFunc={filterFunc}/>
-    //         <CarList data={filteredData}/>
-    //     </div>
-    // )
-
     useEffect(() => {
         const callApi = async () => {
             const resp = await fetch("http://localhost:5000/api/vehicles", {
@@ -45,7 +38,6 @@ function App() {
     }, [])
 
     const callbackReducer = useCallback((state, action) => {
-    //function reducer(state, action) {
         switch (action.type) {
             case 'list':
                 return (
@@ -81,8 +73,6 @@ function App() {
         openDetails,
         displayList
     }
-    //const {routingFuncs, setRoutingFuncs} = useContext(RoutingContext)
-    //setRoutingFuncs(routingContext)
 
 
     const [displayedComponents, setDisplayedComponents] = useReducer(callbackReducer, (
@@ -92,10 +82,6 @@ function App() {
         </div>
     ))
 
-    /// setDisplayedComponents('list')
-    // const openDetails = useCallback((car)=>{
-    //     setDisplayedComponents('list')
-    // })
 
     return (
         <RoutingContext.Provider value={routingContext}>
