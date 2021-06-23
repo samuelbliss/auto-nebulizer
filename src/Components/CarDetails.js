@@ -1,17 +1,22 @@
-import React from "react";
+import React, {useContext} from "react";
+import {RoutingContext} from "./Context";
 
 export const CarDetails = React.memo((props) => {
+    const openDetails = () => props.openDetails(props.data)
+    const routingFuncs = useContext(RoutingContext)
+
     return (
         <div className="Car-details-container" data-testid="car-details">
+            <button className="back-i-say" onClick={routingFuncs.displayList} >{'<-'}Return to List</button>
             <img className="Car-details-image" alt='mypic'
-                 src={props.data.image}/>
+                 src={props.car.image}/>
             <div className="Car-details-summary">
-                <div>{"$" + props.data.price.toLocaleString()}</div>
-                <div>{props.data.make}</div>
-                <div>{props.data.model}</div>
-                <div>{props.data.year}</div>
+                <div>{"$" + props.car.price.toLocaleString()}</div>
+                <div>{props.car.make}</div>
+                <div>{props.car.model}</div>
+                <div>{props.car.year}</div>
             </div>
-            <button  className="add-to-cart-button">Add to Cart</button>
+            <button className="add-to-cart-button">Add to Cart</button>
         </div>
     )
 })

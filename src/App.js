@@ -1,7 +1,9 @@
 import './App.css';
 import {Filterer} from "./Components/Filterer";
 import {CarList} from "./Components/CarList";
-import {useCallback, useEffect, useState} from "react";
+import {useCallback, useEffect, useState, useReducer, useContext, createContext} from "react";
+import {CarDetails} from "./Components/CarDetails";
+import {RoutingContext} from "./Components/Context";
 
 function App() {
     const [carData, setCarData] = useState([]);
@@ -20,12 +22,12 @@ function App() {
         }
     }, [carData])
 
-    const [DisplayedComponents, setDisplayedComponents] = useState(
-        <div className="App">
-            <Filterer filterFunc={filterFunc}/>
-            <CarList data={filteredData}/>
-        </div>
-    )
+    // const [DisplayedComponents, setDisplayedComponents] = useState(
+    //     <div className="App">
+    //         <Filterer filterFunc={filterFunc}/>
+    //         <CarList data={filteredData}/>
+    //     </div>
+    // )
 
     useEffect(() => {
         const callApi = async () => {
@@ -35,17 +37,72 @@ function App() {
             const data = await resp.json()
             setFilteredData(data)
             setCarData(data)
+            setDisplayedComponents({ type: 'list' })
         }
         callApi()
     }, [])
 
+    const callbackReducer = useCallback((state, action) => {
+    //function reducer(state, action) {
+        switch (action.type) {
+            case 'list':
+                return (
+                    <div className="App">
+                        <Filterer filterFunc={filterFunc}/>
+                        <CarList data={filteredData} />
+                    </div>
+                )
+            case 'details':
+                return (
+                    <div className="App">
+                       <CarDetails car={action.car}/>
+                    </div>
+                )
+            default:
+                return (
+                    <div className="App">
+                        <Filterer filterFunc={filterFunc}/>
+                        <CarList data={filteredData} />
+                    </div>
+                )
+        }
+    }, [filterFunc, filteredData] )
+
+    const openDetails = (car) => {
+        setDisplayedComponents({ type: 'details', car: car})
+    }
+    const displayList = () => {
+        setDisplayedComponents({ type: 'list'})
+    }
+
+    const routingContext = {
+        openDetails,
+        displayList
+    }
+    //const {routingFuncs, setRoutingFuncs} = useContext(RoutingContext)
+    //setRoutingFuncs(routingContext)
 
 
+    const [displayedComponents, setDisplayedComponents] = useReducer(callbackReducer, (
+        <div className="App">
+            <Filterer filterFunc={filterFunc}/>
+            <CarList data={filteredData} />
+        </div>
+    ))
+
+    /// setDisplayedComponents('list')
     // const openDetails = useCallback((car)=>{
-    //
+    //     setDisplayedComponents('list')
     // })
 
-    return <DisplayedComponents/>;
+    return (
+        <RoutingContext.Provider value={routingContext}>
+            <div>
+                {displayedComponents}
+            </div>
+        </RoutingContext.Provider>
+
+    )
 }
 
 // What does a car look like?

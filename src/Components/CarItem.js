@@ -1,6 +1,11 @@
-import React from "react";
+import React, {useContext} from "react";
+import {RoutingContext} from "./Context";
 
 export const CarItem = React.memo((props) => {
+    const {openDetails} = useContext(RoutingContext)
+
+    const od = () => openDetails(props.data)
+
     return (
         <div className="Car-list-item-container" data-testid="car-item">
             <img className="Car-list-item-image" alt='mypic'
@@ -11,7 +16,7 @@ export const CarItem = React.memo((props) => {
                 <div>{props.data.model}</div>
                 <div>{props.data.year}</div>
             </div>
-            <button  className="view-details-button" onClick={props.openDetails(props.data)}>View Details</button>
+            <button  className="view-details-button" onClick={od}>View Details</button>
         </div>
     )
 })
