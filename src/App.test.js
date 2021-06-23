@@ -57,7 +57,9 @@ describe('App', () => {
 
         const filterer = screen.getByTestId('car-filter')
         const {getByRole} = within(filterer)
-        const button = getByRole("button")
+        const button = getByRole("button", {
+            name: "submit",
+        })
         act(() => {
                 userEvent.click(button)
             }
@@ -68,5 +70,35 @@ describe('App', () => {
         const {getAllByTestId} = within(list)
         const items = getAllByTestId("car-item")
         expect(items.length).toEqual(1);
+    })
+    test('should return all cars when reset button is clicked', async () => {
+        render(<App/>);
+        await act(() => sleep(100));
+        const model = screen.getByLabelText("Model")
+        userEvent.type(model, 'model1')
+        const filterer = screen.getByTestId('car-filter')
+        const {getByRole} = within(filterer)
+        const button = getByRole("button", {
+            name: "submit",
+        })
+        act(() => {
+                userEvent.click(button)
+            }
+        )
+        await act(() => sleep(100));
+        const preItems = screen.getAllByTestId("car-item")
+        expect(preItems.length).toEqual(1);
+        const resetButton = getByRole("button", {
+            name: "reset",
+        })
+        act(() => {
+                userEvent.click(resetButton)
+            }
+        )
+        await act(() => sleep(100));
+        const list = screen.getByTestId('car-list');
+        const {getAllByTestId} = within(list)
+        const items = getAllByTestId("car-item")
+        expect(items.length).toEqual(mockCarList.length);
     })
 })

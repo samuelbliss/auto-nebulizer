@@ -1,21 +1,25 @@
-import {useState} from "react";
+import React, {useCallback, useState} from "react";
 
 
-export const Filterer = (props) => {
-    /* value={this.state.value} onChange={this.handleChange} */
-
+export const Filterer = React.memo((props) => {
     const [make, setMake] = useState("")
     const [model, setModel] = useState("")
     const [year, setYear] = useState("")
 
-    const filterFunc = props.filterFunc
-
+    const filterFunc = (e) => {
+        e.preventDefault();
+        props.filterFunc(make, model, year);
+    }
+    const resetFunc = useCallback(() => {
+        props.filterFunc("", "", "");
+        setMake("");
+        setModel("");
+        setYear("");
+    }, [props.filterFunc])
 
     return (
         <div className="Car-list-filter" data-testid="car-filter">
-            <form onSubmit={(e) => {
-                e.preventDefault(); filterFunc(make, model, year)
-            } }>
+            <form onSubmit={filterFunc}>
                 <input type="text" aria-label="Make" value={make} onChange={
                     (e) => {setMake(e.target.value)}
                 }/>
@@ -26,11 +30,10 @@ export const Filterer = (props) => {
                     (e) => {setYear(e.target.value)}
                 }/>
                 { !make && !model && !year ?
-                    <input type="submit" value="Search" className="search-button" disabled={true} />:
-                    <input type="submit" value="Search" className="search-button" />}
-                <button aria-label ="reset"/>
+                    <input type="submit" aria-label="submit" value="Search" className="search-button" disabled={true} />:
+                    <input type="submit" aria-label="submit" value="Search" className="search-button" />}
             </form>
-
+            <button aria-label ="reset" className="search-button" onClick={resetFunc}>Reset</button>
         </div>
     )
-}
+})

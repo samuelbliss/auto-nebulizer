@@ -1,5 +1,6 @@
-export const CarItem = (props) => {
-    console.log(props.data)
+import React from "react";
+
+export const CarItem = React.memo((props) => {
     return (
         <div className="Car-list-item-container" data-testid="car-item">
             <img className="Car-list-item-image" alt='mypic'
@@ -13,7 +14,7 @@ export const CarItem = (props) => {
             <button  className="buy-now-button">Buy Now!</button>
         </div>
     )
-}
+})
 
 // What does a car look like?
 /*

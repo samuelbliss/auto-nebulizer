@@ -25,15 +25,19 @@ describe('Filtererinator',() => {
 
     test('we have a search button', () => {
         render(<Filterer />);
-        const listItem = screen.getByRole('button');
-        expect(listItem).toBeInTheDocument();
-        expect(listItem.getAttribute('Value')).toEqual('Search');
+        const button = screen.getByRole("button", {
+            name: "submit",
+        })
+        expect(button).toBeInTheDocument();
+        expect(button.getAttribute('Value')).toEqual('Search');
     })
 
     test('button disabled when make, model, and year empty', () => {
         render(<Filterer />);
-        const listItem = screen.getByRole('button');
-        expect(listItem).toHaveAttribute('disabled')
+        const button = screen.getByRole("button", {
+            name: "submit",
+        })
+        expect(button).toHaveAttribute('disabled')
     })
 
     test('button enabled when make, model, or year not empty', () => {
@@ -45,8 +49,10 @@ describe('Filtererinator',() => {
             }
         )
 
-        const listItem = screen.getByRole('button');
-        expect(listItem).not.toHaveAttribute('disabled')
+        const button = screen.getByRole("button", {
+            name: "submit",
+        })
+        expect(button).not.toHaveAttribute('disabled')
     })
 
     test('submit onclick filter function called with search param - model', () => {
@@ -61,21 +67,27 @@ describe('Filtererinator',() => {
                 userEvent.type(model, 'Pinto')
             }
         )
-
-        const button = screen.getByRole('button');
+        const submitButton = screen.getByRole("button", {
+            name: "submit",
+        })
         act(() => {
-                userEvent.click(button)
+                userEvent.click(submitButton)
             }
         )
         expect(funcWasCalled).toBeTruthy()
     })
 
     test('reset search button restores all vehicles to list', ()=> {
-        let funcWasCalled = false
+        let funcWasCalledWithNoValues = false
         const myFunc = (make, model, year) => {
-            funcWasCalled = true
+            funcWasCalledWithNoValues = !make && !model && !year
         }
         render(<Filterer filterFunc={myFunc}/>);
+        const model = screen.getByLabelText("Model")
+        act(() => {
+                userEvent.type(model, 'Pinto')
+            }
+        )
         const resetButton = screen.getByRole("button", {
             name: "reset",
         })
@@ -84,8 +96,7 @@ describe('Filtererinator',() => {
                 userEvent.click(resetButton)
             }
         )
-        expect(funcWasCalled).toBeTruthy()
-        expect(funcWasCalled).toBeTruthy()
+        expect(funcWasCalledWithNoValues).toBeTruthy()
     }
 )
 })

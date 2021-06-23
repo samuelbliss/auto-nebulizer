@@ -1,7 +1,7 @@
 import './App.css';
 import {Filterer} from "./Components/Filterer";
 import {CarList} from "./Components/CarList";
-import {useEffect, useState} from "react";
+import {useCallback, useEffect, useState} from "react";
 
 function App() {
     const [carData, setCarData] = useState([]);
@@ -13,21 +13,25 @@ function App() {
                 method: 'GET'
             })
             const data = await resp.json()
-            setCarData(data)
             setFilteredData(data)
+            setCarData(data)
         }
         callApi()
     }, [])
 
-    const filterFunc = (make, model, year) => {
-        let filterData = carData.filter((car) => {
-            const matchMake = make ? car.make.toLowerCase().includes( make.toLowerCase()) : true
-            const matchModel = model ? car.model.toLowerCase().includes( model.toLowerCase()) : true
-            const matchYear = year ? car.year.toString().includes(year) : true
-            return matchMake && matchModel && matchYear
-        })
-        setFilteredData(filterData)
-    }
+    const filterFunc = useCallback((make, model, year) => {
+        if (!make && !model && !year) {
+            setFilteredData(carData)
+        } else {
+            let filterData = carData.filter((car) => {
+                const matchMake = make ? car.make.toLowerCase().includes(make.toLowerCase()) : true
+                const matchModel = model ? car.model.toLowerCase().includes(model.toLowerCase()) : true
+                const matchYear = year ? car.year.toString().includes(year) : true
+                return matchMake && matchModel && matchYear
+            })
+            setFilteredData(filterData)
+        }
+    }, [carData])
     return (
         <div className="App">
             <Filterer filterFunc={filterFunc}/>
@@ -46,7 +50,6 @@ function App() {
     "color": "Silver",
     "price": "176.74",
     "available": true
-
  */
 
 export default App;

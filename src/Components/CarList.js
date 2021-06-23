@@ -1,6 +1,7 @@
 import {CarItem} from "./CarItem";
+import React from "react";
 
-export const CarList = (props) => {
+export const CarList = React.memo((props) => {
     return (
         props.data.length < 1 ? <div>Loading</div> :
         <ul aria-label="cars" className="non-bulleted-list" data-testid="car-list">
@@ -12,4 +13,4 @@ export const CarList = (props) => {
         </ul>
 
     )
-}
+})
