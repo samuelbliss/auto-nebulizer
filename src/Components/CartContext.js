@@ -11,7 +11,9 @@
 //     }
 // }
 
-import { createContext, useState } from 'react'
+import {createContext, useContext, useState} from 'react'
+
+export const useCart = ()=> useContext(CartContext)
 
 export const CartContext = createContext(null)
 
@@ -19,13 +21,16 @@ export const CartProvider = ({ children }) => {
     const [cart, setCart] = useState([])
 
     const isInCart = (carId) => {
+        console.log('cart info ' + carId, cart)
+
         return cart.findIndex( (car) =>
             car.id === carId
         )
     }
 
     const add = (car) => {
-        if (isInCart(cart, car.id) === -1) {
+        console.log('Adding to cart ', car.id)
+        if (isInCart(car.id) === -1) {
             cart.push(car)
             setCart(cart)
             console.log("Added vroom-vroom with ID " + car.id)
@@ -34,7 +39,8 @@ export const CartProvider = ({ children }) => {
     }
 
     const remove = (car) => {
-        const i = isInCart(cart, car.id)
+        console.log('Removing from cart')
+        const i = isInCart(car.id)
         if ( i !== -1 ) {
             cart.splice(i, 1)
             setCart(cart)
@@ -43,7 +49,7 @@ export const CartProvider = ({ children }) => {
         }
     }
 
-    const value = { add, remove, isInCart }
+    const value = { add, remove, isInCart, cart }
 
     return (
         <CartContext.Provider value={value}>

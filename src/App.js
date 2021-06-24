@@ -54,7 +54,7 @@ function App() {
                 )
             default:
                 return <div/>
-    }}, [car, filterFunc, filteredData])
+    }}, [car, filterFunc, filteredData, page])
 
     const openDetails = (car) => {
         setCar(car)
