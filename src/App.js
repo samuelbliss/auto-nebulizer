@@ -1,10 +1,11 @@
-import './App.css';
+import './App.scss';
 import {Filterer} from "./Components/Filterer";
 import {CarList} from "./Components/CarList";
 import {useCallback, useEffect, useState, useMemo} from "react";
 import {CarDetails} from "./Components/CarDetails";
 import {RoutingContext} from "./Components/Context";
 import {CartProvider} from "./Components/CartContext";
+import './App.scss'
 
 function App() {
     const [carData, setCarData] = useState([]);
@@ -74,6 +75,7 @@ function App() {
         <RoutingContext.Provider value={routingContext}>
             <CartProvider >
                 <div>
+                    <div className="app-header"> SOMETHING HERE</div>
                     {displayedComponents}
                 </div>
             </CartProvider>

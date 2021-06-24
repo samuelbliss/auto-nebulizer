@@ -1,3 +1,8 @@
+
+$main: #425242;
+$secondary: #A342FF;
+$accent: #FFFFFF;
+
 .App {
     text-align: center;
 }
@@ -14,7 +19,7 @@
 }
 
 .App-header {
-    background-color: #282c34;
+    background-color: $main;
     min-height: 100vh;
     display: flex;
     flex-direction: column;
@@ -38,6 +43,7 @@
 }
 
 .Car-list-item-container {
+    background-color: $main;
     height: 120px;
     align-items: center;
     display: flex;
@@ -52,15 +58,15 @@
     align-items: flex-end ;
 }
 .Car-list-item-image {
+    border-color: $accent;
+    padding: 4px;
     height: 80%;
 }
 
-.buy-now-button {
-    height: 55px;
-    width: 200px;
+.view-details-button {
+    background-color: $secondary;
     display: flex;
     align-content: flex-end;
-
 }
 
 

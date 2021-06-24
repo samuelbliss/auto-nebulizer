@@ -22,15 +22,22 @@ describe('car details',() => {
     }
     const add = jest.fn()
     const remove = jest.fn()
-    const isInCart = jest.fn().mockReturnValue(-1)
+    let isInCart = jest.fn().mockReturnValue(-1)
 
-    const cartContext = {
+    let cartContext = {
         add,
         remove,
         isInCart
     }
 
     beforeEach(() => {
+        isInCart = jest.fn().mockReturnValue(-1)
+
+        let cartContext = {
+            add,
+            remove,
+            isInCart
+        }
         console.log("Is In cart in test: " + cartContext.isInCart(""))
         render(
             <RoutingContext.Provider value={routingContext}>
