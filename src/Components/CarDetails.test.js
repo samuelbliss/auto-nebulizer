@@ -22,7 +22,8 @@ describe('car details',() => {
     }
     const add = jest.fn()
     const remove = jest.fn()
-    const isInCart = jest.fn().mockReturnValue(false)
+    const isInCart = jest.fn().mockReturnValue(-1)
+
     const cartContext = {
         add,
         remove,
@@ -30,6 +31,7 @@ describe('car details',() => {
     }
 
     beforeEach(() => {
+        console.log("Is In cart in test: " + cartContext.isInCart(""))
         render(
             <RoutingContext.Provider value={routingContext}>
                 <CartContext.Provider value={cartContext}>
@@ -72,8 +74,9 @@ describe('car details',() => {
             )
             expect(add).toHaveBeenCalledWith(car);
         });
+
         test('we have a remove from cart button', () => {
-            const isInCartTrue = jest.fn().mockReturnValue(true)
+            const isInCartTrue = jest.fn().mockReturnValue(0)
             render(
                 <RoutingContext.Provider value={routingContext}>
                     <CartContext.Provider value={{...cartContext, isInCart: isInCartTrue}}>

@@ -7,17 +7,18 @@ export const CarDetails = (props) => {
     // const routingFuncs = useContext(RoutingContext)
     const {add,remove,isInCart,cart} = useContext(CartContext)
     const {displayList} = useContext(RoutingContext)
-    const [displayAdd, setdisplayAdd] = useState(isInCart(props.car.id)===-1)
+    const cartIndex = isInCart(props.car.id)
+    const isNotInCart = cartIndex === -1
+    const [displayAdd, setdisplayAdd] = useState(isNotInCart)
+    console.log("Inside CarDetails, isNotInCart is " + isNotInCart)
     const addToCart = () => {
         add(props.car)
-        setdisplayAdd(false)
+        setdisplayAdd(isInCart(props.car.id)===-1)
     }
     const removeFromCart = () => {
         remove(props.car)
-        setdisplayAdd(true)
-
+        setdisplayAdd(isInCart(props.car.id) === -1)
     }
-    // const carIsInCart = useMemo(() => isInCart(props.car.id),[cart])
 
     console.log('CarDetails', cart)
 
