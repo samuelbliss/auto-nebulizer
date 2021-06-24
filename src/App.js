@@ -1,7 +1,7 @@
 import './App.css';
 import {Filterer} from "./Components/Filterer";
 import {CarList} from "./Components/CarList";
-import {useCallback, useEffect, useState, useReducer, useContext, createContext} from "react";
+import {useCallback, useEffect, useState, useMemo} from "react";
 import {CarDetails} from "./Components/CarDetails";
 import {RoutingContext} from "./Components/Context";
 import {CartProvider} from "./Components/CartContext";
@@ -9,7 +9,8 @@ import {CartProvider} from "./Components/CartContext";
 function App() {
     const [carData, setCarData] = useState([]);
     const [filteredData, setFilteredData] = useState([]);
-    const [cart, setCart] = useState([]);
+    const [car, setCar] = useState(null);
+    const [page, setPage] = useState('list')
     const filterFunc = useCallback((make, model, year) => {
         if (!make && !model && !year) {
             setFilteredData(carData)
@@ -21,7 +22,6 @@ function App() {
                 return matchMake && matchModel && matchYear
             })
             setFilteredData(filterData)
-            setDisplayedComponents({ type: 'list' })
         }
     }, [carData])
 
@@ -33,13 +33,18 @@ function App() {
             const data = await resp.json()
             setFilteredData(data)
             setCarData(data)
-            setDisplayedComponents({ type: 'list' })
         }
         callApi()
     }, [])
 
-    const callbackReducer = useCallback((state, action) => {
-        switch (action.type) {
+    let displayedComponents = useMemo(() => {
+        switch (page) {
+            case 'detail':
+                return (
+                    <div className="App">
+                        <CarDetails car={car}/>
+                    </div>
+                )
             case 'list':
                 return (
                     <div className="App">
@@ -47,41 +52,22 @@ function App() {
                         <CarList data={filteredData} />
                     </div>
                 )
-            case 'details':
-                return (
-                    <div className="App">
-                       <CarDetails car={action.car}/>
-                    </div>
-                )
             default:
-                return (
-                    <div className="App">
-                        <Filterer filterFunc={filterFunc}/>
-                        <CarList data={filteredData} />
-                    </div>
-                )
-        }
-    }, [filterFunc, filteredData] )
+                return <div/>
+    }}, [car, filterFunc, filteredData])
 
     const openDetails = (car) => {
-        setDisplayedComponents({ type: 'details', car: car})
+        setCar(car)
+        setPage('detail')
     }
     const displayList = () => {
-        setDisplayedComponents({ type: 'list'})
+        setPage('list')
     }
 
     const routingContext = {
         openDetails,
         displayList
     }
-
-
-    const [displayedComponents, setDisplayedComponents] = useReducer(callbackReducer, (
-        <div className="App">
-            <Filterer filterFunc={filterFunc}/>
-            <CarList data={filteredData} />
-        </div>
-    ))
 
 
     return (

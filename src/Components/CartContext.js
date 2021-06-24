@@ -15,17 +15,16 @@ import { createContext, useState } from 'react'
 
 export const CartContext = createContext(null)
 
-function isInCart (cart, carId) {
-    return cart.findIndex( (car) =>
-        car.id === carId
-    )
-}
-
 export const CartProvider = ({ children }) => {
     const [cart, setCart] = useState([])
 
-    const add = (car) => {
+    const isInCart = (carId) => {
+        return cart.findIndex( (car) =>
+            car.id === carId
+        )
+    }
 
+    const add = (car) => {
         if (isInCart(cart, car.id) === -1) {
             cart.push(car)
             setCart(cart)
@@ -44,7 +43,7 @@ export const CartProvider = ({ children }) => {
         }
     }
 
-    const value = { add, remove }
+    const value = { add, remove, isInCart }
 
     return (
         <CartContext.Provider value={value}>

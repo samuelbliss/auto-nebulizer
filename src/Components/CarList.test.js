@@ -1,6 +1,7 @@
 import {render, within, screen, getAllByTestId} from '@testing-library/react';
 import {CarList} from "./CarList";
 import {CarItem} from "./CarItem";
+import {RoutingContext} from "./Context";
 
 describe('list item', () => {
         let mockCarList = []
@@ -12,6 +13,12 @@ describe('list item', () => {
                 year: "year" + item,
                 image: "https://www.fakephoto.something/" + item}
         }
+        const openDetails = jest.fn()
+        const displayList = jest.fn()
+        const routingContext = {
+            openDetails,
+            displayList
+        }
         beforeEach(() => {
                 mockCarList = []
                 for (let i=1; i<4; i++) {
@@ -20,7 +27,11 @@ describe('list item', () => {
             }
         )
         it("should render list of cars", () => {
-            render(<CarList data={mockCarList}/>)
+            render(
+                <RoutingContext.Provider value={routingContext}>
+                    <CarList data={mockCarList}/>
+                </RoutingContext.Provider >
+            );
             const list = screen.getByRole("list", {
                 name: /cars/i,
             })
