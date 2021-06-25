@@ -74,3 +74,11 @@ $accent: #FFFFFF;
     display: flex;
     flex-direction: column;
 }
+
+.loading-container {
+    display: flex;
+    align-content: center;
+    vertical-align: center;
+    padding-top: 45%;
+    padding-left: 40%;
+}

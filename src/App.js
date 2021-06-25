@@ -1,11 +1,12 @@
 import './App.scss';
 import {Filterer} from "./Components/Filterer";
-import {CarList} from "./Components/CarList";
-import {useCallback, useEffect, useState, useMemo} from "react";
+import React, {useCallback, useEffect, useState, useMemo, Suspense, lazy} from "react";
 import {CarDetails} from "./Components/CarDetails";
 import {RoutingContext} from "./Components/Context";
 import {CartProvider} from "./Components/CartContext";
-import './App.scss'
+import './App.scss';
+
+const CarList = lazy(() => import('./Components/CarListMiddleman'));
 
 function App() {
     const [carData, setCarData] = useState([]);
@@ -48,9 +49,12 @@ function App() {
                 )
             case 'list':
                 return (
+
                     <div className="App">
                         <Filterer filterFunc={filterFunc}/>
-                        <CarList data={filteredData} />
+                        <Suspense fallback={<div className='loading-container'> <progress /></div>}>
+                            <CarList data={filteredData} />
+                        </Suspense>
                     </div>
                 )
             default:
