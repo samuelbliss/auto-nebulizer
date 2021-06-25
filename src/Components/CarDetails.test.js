@@ -38,7 +38,6 @@ describe('car details',() => {
             remove,
             isInCart
         }
-        console.log("Is In cart in test: " + cartContext.isInCart(""))
         render(
             <RoutingContext.Provider value={routingContext}>
                 <CartContext.Provider value={cartContext}>

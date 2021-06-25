@@ -10,7 +10,6 @@ export const CarDetails = (props) => {
     const cartIndex = isInCart(props.car.id)
     const isNotInCart = cartIndex === -1
     const [displayAdd, setdisplayAdd] = useState(isNotInCart)
-    console.log("Inside CarDetails, isNotInCart is " + isNotInCart)
     const addToCart = () => {
         add(props.car)
         setdisplayAdd(isInCart(props.car.id)===-1)
@@ -19,8 +18,6 @@ export const CarDetails = (props) => {
         remove(props.car)
         setdisplayAdd(isInCart(props.car.id) === -1)
     }
-
-    console.log('CarDetails', cart)
 
 
     return (

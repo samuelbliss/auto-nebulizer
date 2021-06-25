@@ -13,16 +13,17 @@ export const CarList = (props) => {
             </div>
         )
     })
-    return (
 
-        <FixedSizeList
-            height={window.innerHeight}
-            width={window.innerWidth}
-            itemSize={125}
-            itemCount={cars.length}
-        >
-            {Row}
-        </FixedSizeList>
+    return (
+        <div data-testid="car-list">
+            <FixedSizeList
+                height={window.innerHeight}
+                itemSize={125}
+                itemCount={cars.length}
+            >
+                {Row}
+            </FixedSizeList>
+        </div>
 
     )
 }

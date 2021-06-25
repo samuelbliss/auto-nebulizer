@@ -101,4 +101,32 @@ describe('App', () => {
         const items = getAllByTestId("car-item")
         expect(items.length).toEqual(mockCarList.length);
     })
+    test('should display detail page when a car is selected', async () => {
+        render(<App/>);
+        await act(() => sleep(100));
+        const carItem = screen.getAllByTestId("car-item")
+        const {getByRole} = within(carItem[0])
+        const detailButton = getByRole("button")
+        act(() => {
+                userEvent.click(detailButton)
+            }
+        )
+        await act(() => sleep(100));
+        const detail = screen.getByTestId('car-details');
+        expect(detail).toBeInTheDocument();
+    })
+    test('should open cart page when go to Cart is clicked', async () => {
+        render(<App/>);
+        await act(() => sleep(100));
+        const button = screen.getByRole("button", {
+            name: "goToCart",
+        })
+        act(() => {
+                userEvent.click(button)
+            }
+        )
+        await act(() => sleep(100));
+        const cart = screen.getByTestId('cart-display');
+        expect(cart).toBeInTheDocument();
+    })
 })

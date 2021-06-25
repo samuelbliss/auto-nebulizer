@@ -28,15 +28,15 @@ describe('Cart Context Tests',() => {
         const car = {id:'1234'}
         const wrapper = ({ children }) => <CartProvider>{children}</CartProvider>
         const result = renderHook(() => useCart(), { wrapper }).result
-        await act(()=>{
+        act(()=>{
             result.current.add(car)
         })
-        await act(() => sleep(500));
+        await act(async () => sleep(500));
 
-        await act(()=>{
+        act(()=>{
             result.current.remove(car)
         })
-        await act(() => sleep(500));
+        await act(async () => sleep(500));
 
         expect(result.current.cart).toEqual([])
     })

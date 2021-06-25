@@ -5,6 +5,7 @@ import {CarDetails} from "./Components/CarDetails";
 import {RoutingContext} from "./Components/Context";
 import {CartProvider} from "./Components/CartContext";
 import './App.scss';
+import {CartDisplay} from "./Components/CartDisplay";
 
 const CarList = lazy(() => import('./Components/CarListMiddleman'));
 
@@ -57,6 +58,14 @@ function App() {
                         </Suspense>
                     </div>
                 )
+            case 'cart':
+                return (
+                    <div className="App">
+                        <Suspense fallback={<div className='loading-container'> <progress /></div>}>
+                            <CartDisplay />
+                        </Suspense>
+                    </div>
+                )
             default:
                 return <div/>
     }}, [car, filterFunc, filteredData, page])
@@ -73,13 +82,18 @@ function App() {
         openDetails,
         displayList
     }
+    const goToCart = () => {
+        setPage("cart")
+    }
 
 
     return (
         <RoutingContext.Provider value={routingContext}>
             <CartProvider >
                 <div>
-                    <div className="app-header"> SOMETHING HERE</div>
+                    <div className="app-header">
+                        <button aria-label="goToCart" onClick={() => goToCart()}>Go To Cart!</button>
+                    </div>
                     {displayedComponents}
                 </div>
             </CartProvider>

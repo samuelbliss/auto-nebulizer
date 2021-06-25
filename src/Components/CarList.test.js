@@ -32,11 +32,7 @@ describe('list item', () => {
                     <CarList data={mockCarList}/>
                 </RoutingContext.Provider >
             );
-            const list = screen.getByRole("list", {
-                name: /cars/i,
-            })
-            const {getAllByTestId} = within(list)
-            const items = getAllByTestId("car-item")
+            const items = screen.getAllByTestId("car-item")
             expect(items.length).toBe(mockCarList.length)
         })
     }
